@@ -1,6 +1,6 @@
 'use client'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { trpc } from '../_trpc/client'
 import { Loader2 } from 'lucide-react'
 
@@ -31,13 +31,15 @@ const Page = (props: Props) => {
   }, [isSuccess, isError, data, error, origin, router])
 
   return (
-    <div className="mt-24 flex w-full justify-center">
-      <div className="flex flex-col items-center gap-2">
-        <Loader2 className="size-8 animate-spin text-zinc-800" />
-        <h3 className="text-xl font-semibold">Setting up your account...</h3>
-        <p>You will be redirected automatically</p>
+    <Suspense>
+      <div className="mt-24 flex w-full justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <Loader2 className="size-8 animate-spin text-zinc-800" />
+          <h3 className="text-xl font-semibold">Setting up your account...</h3>
+          <p>You will be redirected automatically</p>
+        </div>
       </div>
-    </div>
+    </Suspense>
   )
 }
 
