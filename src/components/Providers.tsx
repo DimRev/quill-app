@@ -5,19 +5,26 @@ import { trpc } from '@/app/_trpc/client'
 import { httpBatchLink } from '@trpc/client'
 
 const Providers = ({ children }: PropsWithChildren) => {
+  let url: string
+  if (process.env.NODE_ENV !== 'production') {
+    url = 'http://localhost:3000/api/trpc'
+  } else {
+    url = 'https://quill-app-three.vercel.app/api/trpc'
+  }
+
   const [queryClient] = useState(() => new QueryClient())
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: 'http://localhost:3000/api/trpc',
+          url: url,
         }),
       ],
     })
   )
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <trpc.Provider client={ trpcClient } queryClient={ queryClient }>
+      <QueryClientProvider client={ queryClient }>{ children }</QueryClientProvider>
     </trpc.Provider>
   )
 }
