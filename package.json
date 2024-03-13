@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "npm run db:generate && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore .",
-    "dev": "npm run format:fix && next dev"
+    "dev": "npm run format:fix && next dev",
+    "db:generate": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
