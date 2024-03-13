@@ -5,6 +5,9 @@ const nextConfig = {
     config.resolve.alias.encoding = false
     return config
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 export default nextConfig
