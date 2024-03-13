@@ -1,38 +1,38 @@
-import { useRouter } from 'next/router';
-import { useSearchParams } from 'next/navigation';
-import React, { Suspense, useEffect, useState } from 'react';
-import { Loader2 } from 'lucide-react';
-import { trpc } from '../_trpc/client';
+import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import React, { Suspense, useEffect, useState } from 'react'
+import { Loader2 } from 'lucide-react'
+import { trpc } from '../_trpc/client'
 
-type Props = {};
+type Props = {}
 
 const Page = (props: Props) => {
-  const router = useRouter();
-  const [redirecting, setRedirecting] = useState<boolean>(false);
-  const [origin, setOrigin] = useState<string | null>(null);
+  const router = useRouter()
+  const [redirecting, setRedirecting] = useState<boolean>(false)
+  const [origin, setOrigin] = useState<string | null>(null)
 
   // Wrapping useSearchParams() within Suspense boundary
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
 
   useEffect(() => {
-    const originParam = searchParams.get('origin');
-    setOrigin(originParam);
-  }, [searchParams]);
+    const originParam = searchParams.get('origin')
+    setOrigin(originParam)
+  }, [searchParams])
 
   const { data, error } = trpc.authCallback.useQuery(undefined, {
     retry: true,
     retryDelay: 500,
-  });
+  })
 
   if (data?.success) {
     // Redirect when successful
     if (!redirecting) {
-      setRedirecting(true);
-      router.push(origin ? `/${origin}` : '/dashboard');
+      setRedirecting(true)
+      router.push(origin ? `/${origin}` : '/dashboard')
     }
   } else if (error?.data?.code === 'UNAUTHORIZED') {
     // Redirect on error
-    router.push('/sign-in');
+    router.push('/sign-in')
   }
 
   return (
@@ -43,7 +43,7 @@ const Page = (props: Props) => {
         <p>You will be redirected automatically</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page
