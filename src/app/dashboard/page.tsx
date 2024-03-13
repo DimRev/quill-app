@@ -12,7 +12,7 @@ const Page = async (props: Props) => {
 
   if (!user || !user.id) redirect('/auth-callback?origin=dashboard')
 
-  const dbUser = db.user.findFirst({
+  const dbUser = await db.user.findFirst({
     where: {
       id: user.id,
     },
@@ -20,7 +20,7 @@ const Page = async (props: Props) => {
 
   if (!dbUser) return redirect('/auth-callback?origin=dashboard')
 
-  return <Dashboard />
+  return <Dashboard user={ dbUser } />
 }
 
 export default Page
