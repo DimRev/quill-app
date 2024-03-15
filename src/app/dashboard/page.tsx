@@ -20,7 +20,7 @@ const Page = async (props: Props) => {
 
   if (!dbUser) return redirect('/auth-callback?origin=dashboard')
 
-  return <Dashboard user={ dbUser } />
+  return <Dashboard user={dbUser} />
 }
 
 export default Page
