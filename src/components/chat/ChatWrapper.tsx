@@ -6,6 +6,7 @@ import { ChevronLeft, Loader2, XCircle } from 'lucide-react'
 import { trpc } from '@/app/_trpc/client'
 import Link from 'next/link'
 import { buttonVariants } from '../ui/button'
+import { ChatContextProvider } from './ChatContext'
 
 type Props = {
   fileId: string
@@ -18,7 +19,7 @@ const ChatWrapper = ({ fileId }: Props) => {
       {
         refetchInterval: (res) =>
           res.state.data?.status === 'SUCCESS' ||
-          res.state.data?.status === 'FAILED'
+            res.state.data?.status === 'FAILED'
             ? false
             : 5000,
       }
@@ -67,10 +68,10 @@ const ChatWrapper = ({ fileId }: Props) => {
             </p>
             <Link
               href="/dashboard"
-              className={buttonVariants({
+              className={ buttonVariants({
                 variant: 'secondary',
                 className: 'mt-4',
-              })}>
+              }) }>
               <ChevronLeft className="mr-1.5 size-3" />
               Back
             </Link>
@@ -81,13 +82,15 @@ const ChatWrapper = ({ fileId }: Props) => {
     )
 
   return (
-    <div className="relative flex min-h-full justify-between gap-2 divide-y divide-zinc-200 bg-zinc-50">
-      <div className="mb-28 flex flex-1 flex-col justify-between">
-        <Messages />
-      </div>
+    <ChatContextProvider fileId={ fileId }>
+      <div className="relative flex min-h-full justify-between gap-2 divide-y divide-zinc-200 bg-zinc-50">
+        <div className="mb-28 flex flex-1 flex-col justify-between">
+          <Messages />
+        </div>
 
-      <ChatInput />
-    </div>
+        <ChatInput />
+      </div>
+    </ChatContextProvider>
   )
 }
 

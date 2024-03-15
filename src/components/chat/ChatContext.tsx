@@ -1,13 +1,12 @@
-import { createContext, useState } from "react";
-import { useToast } from "../ui/use-toast";
-import { useMutation } from "@tanstack/react-query";
+import { createContext, useState } from 'react'
+import { useToast } from '../ui/use-toast'
+import { useMutation } from '@tanstack/react-query'
 
 type StreamResponse = {
-  addMessage: () => void,
-  message: string,
-  handleInputChange: (ev: React.ChangeEvent<HTMLTextAreaElement>) => void,
-  isLoading: boolean,
-
+  addMessage: () => void
+  message: string
+  handleInputChange: (ev: React.ChangeEvent<HTMLTextAreaElement>) => void
+  isLoading: boolean
 }
 
 export const ChatContext = createContext<StreamResponse>({
@@ -18,11 +17,11 @@ export const ChatContext = createContext<StreamResponse>({
 })
 
 type Props = {
-  fieldId: string
+  fileId: string
   children: React.ReactNode
 }
 
-export const ChatContextProvider = ({ fieldId, children }: Props) => {
+export const ChatContextProvider = ({ fileId, children }: Props) => {
   const [message, setMessage] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -33,9 +32,9 @@ export const ChatContextProvider = ({ fieldId, children }: Props) => {
       const response = await fetch('/api/message', {
         method: 'POST',
         body: JSON.stringify({
-          fieldId,
-          message
-        })
+          fileId,
+          message,
+        }),
       })
 
       if (!response.ok) throw new Error('Failed to send message')
@@ -50,14 +49,14 @@ export const ChatContextProvider = ({ fieldId, children }: Props) => {
     setMessage(ev.target.value)
   }
 
-
   return (
-    <ChatContext.Provider value={ {
-      addMessage,
-      handleInputChange,
-      isLoading,
-      message
-    } }>
+    <ChatContext.Provider
+      value={ {
+        addMessage,
+        handleInputChange,
+        isLoading,
+        message,
+      } }>
       { children }
     </ChatContext.Provider>
   )
