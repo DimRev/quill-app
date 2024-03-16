@@ -10,9 +10,9 @@ type StreamResponse = {
 }
 
 export const ChatContext = createContext<StreamResponse>({
-  addMessage: () => { },
+  addMessage: () => {},
   message: '',
-  handleInputChange: () => { },
+  handleInputChange: () => {},
   isLoading: false,
 })
 
@@ -51,13 +51,13 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
 
   return (
     <ChatContext.Provider
-      value={ {
+      value={{
         addMessage,
         handleInputChange,
         isLoading,
         message,
-      } }>
-      { children }
+      }}>
+      {children}
     </ChatContext.Provider>
   )
 }
